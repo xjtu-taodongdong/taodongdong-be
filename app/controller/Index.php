@@ -7,7 +7,7 @@ class Index extends BaseController
 {
     public function index()
     {
-        return '欢迎来到淘东东';
+        return '<script src="https://unpkg.com/axios@0.18.0/dist/axios.min.js"></script>欢迎来到淘东东';
     }
 
     public function hello($name = 'ThinkPHP6')
