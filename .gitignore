@@ -3,3 +3,5 @@
 /vendor
 *.log
 .env
+/push.cmd
+/refresh.sh
