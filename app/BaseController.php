@@ -36,6 +36,9 @@ abstract class BaseController
      */
     protected $middleware = [];
 
+    protected $token;
+    protected $input;
+
     /**
      * 构造方法
      * @access public
@@ -52,7 +55,10 @@ abstract class BaseController
 
     // 初始化
     protected function initialize()
-    {}
+    {
+        $this->token = $this->request->param('token');
+        $this->input = $this->request->param('data');
+    }
 
     /**
      * 验证数据
@@ -91,4 +97,16 @@ abstract class BaseController
         return $v->failException(true)->check($data);
     }
 
+    public function data($data)
+    {
+        return json([
+            'code' => 0,
+            'data' => $data,
+        ]);
+    }
+
+    public function error($code = -1, $message = '服务器异常', $data = null)
+    {
+        throw new ApiException($code, $message, $data);
+    }
 }
