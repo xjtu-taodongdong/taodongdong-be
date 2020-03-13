@@ -3,6 +3,7 @@ declare (strict_types = 1);
 
 namespace app;
 
+use app\model\User;
 use think\App;
 use think\exception\ValidateException;
 use think\Validate;
@@ -38,6 +39,8 @@ abstract class BaseController
 
     protected $token;
     protected $input;
+    protected $currentUserCacheLoaded = false;
+    protected $currentUserCache;
 
     /**
      * 构造方法
@@ -58,6 +61,36 @@ abstract class BaseController
     {
         $this->token = $this->request->param('token');
         $this->input = $this->request->param('data');
+    }
+
+    /**
+     * 获取当前登录的用户
+     */
+    protected function getCurrentUser()
+    {
+        if ($this->currentUserCacheLoaded) {
+            $user = User::where('token', $this->token)->find();
+            if ($user) {
+                $this->currentUserCache = $user;
+            } else {
+                $this->currentUserCache = null;
+            }
+            $this->currentUserCacheLoaded = true;
+        }
+        return $this->currentUserCache;
+    }
+
+    /**
+     * 获取当前登录的用户或抛出错误
+     */
+    protected function getCurrentUserOrThrow()
+    {
+        $user = $this->getCurrentUser();
+        if ($user) {
+            return $user;
+        } else {
+            $this->error(Errors::NOT_LOGIN);
+        }
     }
 
     /**
@@ -105,8 +138,9 @@ abstract class BaseController
         ]);
     }
 
-    public function error($code = -1, $message = '服务器异常', $data = null)
+    public function error($code = -1, $message = null, $data = null)
     {
-        throw new ApiException($code, $message, $data);
+        $finalMessage = $message ? $message : getErrorMessage($code);
+        throw new ApiException($code, $finalMessage, $data);
     }
 }
