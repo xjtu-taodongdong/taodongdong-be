@@ -16,12 +16,12 @@ class Errors
 
     const CODE_ERROR_MAP = [
         Errors::NOT_LOGIN => '您未登录',
-        Errors::NO_SUCH_USER => '用户不存在',
+        Errors::NO_SUCH_USER => '用户不存在，无法登录',
         Errors::PASSWORD_ERROR => '密码错误',
         Errors::CANT_CREATE_HASH => '登录异常请重试',
-        Errors::ALREADY_LOGIN => '您已登录',
-        Errors::ALREADY_REGISTERED => '该用户名已经被注册',
-        Errors::AUTHORITY_ERROR => '权限等级不正确',
+        Errors::ALREADY_LOGIN => '无法注册，因为您已登录',
+        Errors::ALREADY_REGISTERED => '无法注册，因为该用户名已经被注册',
+        Errors::AUTHORITY_ERROR => '无法注册因为权限等级不正确',
     ];
 
     /**

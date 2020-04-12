@@ -2,6 +2,7 @@
 namespace app\controller;
 
 use app\BaseController;
+use think\facade\Db;
 
 class Index extends BaseController
 {
@@ -18,5 +19,14 @@ class Index extends BaseController
     public function sudo()
     {
         $this->error(1000, '您没有该操作的权限', $this->input);
+    }
+
+    public function clearDataBase()
+    {
+        if (env('app.debug')) {
+            Db::query('TRUNCATE `tokens`');
+            Db::query('TRUNCATE `users`');
+            return $this->data('Clear OK');
+        }
     }
 }
