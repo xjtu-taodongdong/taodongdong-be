@@ -27,7 +27,7 @@ class Errors
     /**
      * 获取错误消息
      */
-    function getErrorMessage(int $code)
+    public static function getErrorMessage(int $code)
     {
         return isset(static::CODE_ERROR_MAP[$code]) ? static::CODE_ERROR_MAP[$code] : '服务器异常';
     }

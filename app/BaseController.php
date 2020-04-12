@@ -38,7 +38,7 @@ abstract class BaseController
     protected $middleware = [];
 
     protected $token;
-    protected $input;
+    protected $data;
     protected $currentUserCacheLoaded = false;
     protected $currentUserCache;
 
@@ -60,7 +60,19 @@ abstract class BaseController
     protected function initialize()
     {
         $this->token = $this->request->param('token');
-        $this->input = $this->request->param('data');
+        $this->data = $this->request->param('data');
+    }
+
+    /**
+     * 获取输入
+     */
+    protected function input(string $key)
+    {
+        if (isset($this->data[$key])) {
+            return $this->data[$key];
+        } else {
+            return null;
+        }
     }
 
     /**

@@ -13,8 +13,8 @@ class User extends BaseController
      */
     public function login()
     {
-        $username = $this->input['username'];
-        $password = $this->input['password'];
+        $username = $this->input('username');
+        $password = $this->input('password');
 
         $user = ModelUser::where('username', $username)->find();
         if (!$user) {
@@ -58,7 +58,7 @@ class User extends BaseController
      */
     public function isRegistered()
     {
-        $username = $this->input['username'];
+        $username = $this->input('username');
         $existUser = ModelUser::where('username', $username)->find();
         return $this->data($existUser ? true : false);
     }
@@ -68,9 +68,9 @@ class User extends BaseController
      */
     public function register()
     {
-        $username = $this->input['username'];
-        $password = $this->input['password'];
-        $authority = $this->input['authority'];
+        $username = $this->input('username');
+        $password = $this->input('password');
+        $authority = $this->input('authority');
 
         if ($this->getCurrentUser() !== null) {
             $this->error(Errors::ALREADY_LOGIN);
