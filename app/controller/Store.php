@@ -21,12 +21,31 @@ class Store extends BaseController
             $this->error(Errors::ALREADY_HAVE_STORE);
         }
 
-        $storeName = $this->input('storeName');
+        $storeName = $this->input('store_name');
         $store = new ModelStore();
         $store->merchant_user_id = $user->id;
         $store->store_name = $storeName;
         $store->save();
 
         return $this->data('创建商铺成功');
+    }
+
+    /**
+     * 获取我的商铺信息
+     */
+    public function getMyStoreInfo()
+    {
+        $user = $this->getCurrentUserOrThrow();
+
+        if ($user->authority !== 1) {
+            $this->error(Errors::NOT_MERCHANT);
+        }
+
+        $store = ModelStore::where('merchant_user_id', $user->id)->find();
+        if (!$store) {
+            $this->error(Errors::NO_STORE);
+        }
+
+        return $this->data($store);
     }
 }

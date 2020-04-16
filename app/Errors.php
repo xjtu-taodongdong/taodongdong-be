@@ -18,6 +18,8 @@ class Errors
     const INVALID_AUTHORITY_TO_MERCHANT = 11001;
 
     const ALREADY_HAVE_STORE = 12000;
+    const NOT_MERCHANT = 12001;
+    const NO_STORE = 12002;
 
     const CODE_ERROR_MAP = [
         Errors::NOT_LOGIN => '您未登录',
@@ -30,6 +32,8 @@ class Errors
         Errors::ALREADY_MERCHANT => '您已经是商家了，无法注册为商家',
         Errors::INVALID_AUTHORITY_TO_MERCHANT => '您的权限等级无法注册为商家',
         Errors::ALREADY_HAVE_STORE => '您已经拥有了一个店铺',
+        Errors::NOT_MERCHANT => '您不是商家，没有商铺',
+        Errors::NO_STORE => '您还没有商铺',
     ];
 
     /**

@@ -3,6 +3,10 @@ namespace app\model;
 
 use think\Model;
 
+/**
+ * @property int $merchant_user_id
+ * @property string $store_name
+ */
 class Store extends Model
 {
     // 数据表名

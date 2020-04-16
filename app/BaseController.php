@@ -79,6 +79,7 @@ abstract class BaseController
 
     /**
      * 获取当前登录的用户
+     * @return \app\model\User
      */
     protected function getCurrentUser()
     {
@@ -104,6 +105,7 @@ abstract class BaseController
 
     /**
      * 获取当前登录的用户或抛出错误
+     * @return \app\model\User
      */
     protected function getCurrentUserOrThrow()
     {

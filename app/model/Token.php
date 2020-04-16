@@ -3,6 +3,10 @@ namespace app\model;
 
 use think\Model;
 
+/**
+ * @property string $token
+ * @property string $username
+ */
 class Token extends Model
 {
     // 数据表名

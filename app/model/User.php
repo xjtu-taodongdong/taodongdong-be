@@ -3,6 +3,11 @@ namespace app\model;
 
 use think\Model;
 
+/**
+ * @property string $username
+ * @property string $password
+ * @property int $authority
+ */
 class User extends Model
 {
     // 数据表名
