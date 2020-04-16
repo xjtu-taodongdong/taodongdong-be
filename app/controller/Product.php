@@ -31,5 +31,7 @@ class Product extends BaseController
         $product->product_description = $productDescription;
         $product->product_image = null;
         $product->save();
+
+        return $this->data($product);
     }
 }

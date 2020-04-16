@@ -26,6 +26,8 @@ class Index extends BaseController
         if (env('app.debug')) {
             Db::query('TRUNCATE `tokens`');
             Db::query('TRUNCATE `users`');
+            Db::query('TRUNCATE `products`');
+            Db::query('TRUNCATE `stores`');
             return $this->data('Clear OK');
         }
     }
