@@ -99,6 +99,27 @@ class User extends BaseController
     }
 
     /**
+     * 注册为商家
+     */
+    public function approveMerchant()
+    {
+        $user = $this->getCurrentUserOrThrow();
+
+        if ($user->authority === 1) {
+            $this->error(Errors::ALREADY_MERCHANT);
+        }
+
+        if ($user->authority !== 0) {
+            $this->error(Errors::INVALID_AUTHORITY_TO_MERCHANT);
+        }
+
+        $user->authority = 1;
+        $user->save();
+
+        return $this->data('注册为商家成功');
+    }
+
+    /**
      * 获取当前登录用户的信息
      */
     public function getUserInfo()

@@ -14,6 +14,11 @@ class Errors
     const ALREADY_REGISTERED = 10004;
     const AUTHORITY_ERROR = 10005;
 
+    const ALREADY_MERCHANT = 11000;
+    const INVALID_AUTHORITY_TO_MERCHANT = 11001;
+
+    const ALREADY_HAVE_STORE = 12000;
+
     const CODE_ERROR_MAP = [
         Errors::NOT_LOGIN => '您未登录',
         Errors::NO_SUCH_USER => '用户不存在，无法登录',
@@ -22,6 +27,9 @@ class Errors
         Errors::ALREADY_LOGIN => '无法注册，因为您已登录',
         Errors::ALREADY_REGISTERED => '无法注册，因为该用户名已经被注册',
         Errors::AUTHORITY_ERROR => '无法注册因为权限等级不正确',
+        Errors::ALREADY_MERCHANT => '您已经是商家了，无法注册为商家',
+        Errors::INVALID_AUTHORITY_TO_MERCHANT => '您的权限等级无法注册为商家',
+        Errors::ALREADY_HAVE_STORE => '您已经拥有了一个店铺',
     ];
 
     /**
