@@ -16,7 +16,7 @@ class Store extends BaseController
     {
         $user = $this->getCurrentUserOrThrow();
 
-        $exist = ModelStore::where('merchant_user_id', $user->id)->find();
+        $exist = $this->getCurrentStore();
         if ($exist) {
             $this->error(Errors::ALREADY_HAVE_STORE);
         }
@@ -41,10 +41,7 @@ class Store extends BaseController
             $this->error(Errors::NOT_MERCHANT);
         }
 
-        $store = ModelStore::where('merchant_user_id', $user->id)->find();
-        if (!$store) {
-            $this->error(Errors::NO_STORE);
-        }
+        $store = $this->getCurrentStoreOrThrow();
 
         return $this->data($store);
     }

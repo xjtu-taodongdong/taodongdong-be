@@ -3,6 +3,7 @@ declare (strict_types = 1);
 
 namespace app;
 
+use app\model\Store;
 use app\model\Token;
 use app\model\User;
 use think\App;
@@ -42,6 +43,8 @@ abstract class BaseController
     protected $data;
     protected $currentUserCacheLoaded = false;
     protected $currentUserCache;
+    protected $currentStoreCacheLoaded = false;
+    protected $currentStoreCache;
     protected $debugMap = [];
 
     /**
@@ -114,6 +117,41 @@ abstract class BaseController
             return $user;
         } else {
             $this->error(Errors::NOT_LOGIN);
+        }
+    }
+
+    /**
+     * 获取当前登录用户的店铺
+     * @return \app\model\Store
+     */
+    protected function getCurrentStore()
+    {
+        if (!$this->currentStoreCacheLoaded) {
+            $this->currentStoreCacheLoaded = true;
+            $this->currentStoreCache = null;
+
+            $user = $this->getCurrentUser();
+            if ($user) {
+                $store = Store::where('merchant_user_id', $user->id)->find();
+                if ($store) {
+                    $this->currentStoreCache = $store;
+                }
+            }
+        }
+        return $this->currentStoreCache;
+    }
+
+    /**
+     * 获取当前登录用户的店铺或抛出错误
+     * @return \app\model\Store
+     */
+    protected function getCurrentStoreOrThrow()
+    {
+        $store = $this->getCurrentStore();
+        if ($store) {
+            return $store;
+        } else {
+            $this->error(Errors::NO_STORE);
         }
     }
 
