@@ -37,7 +37,9 @@ class User extends BaseController
         $tokenModel->username = $username;
         $tokenModel->save();
 
-        return $this->data('登录成功');
+        return $this->data([
+            'token' => $token
+        ]);
     }
 
     /**
@@ -94,5 +96,20 @@ class User extends BaseController
         $user->save();
 
         return $this->data('注册成功');
+    }
+
+    /**
+     * 获取当前登录用户的信息
+     */
+    public function getUserInfo()
+    {
+        $user = $this->getCurrentUser();
+        if ($user) {
+            return $this->data(
+                $user->hidden(['password'])->toArray()
+            );
+        } else {
+            return $this->data(null);
+        }
     }
 }

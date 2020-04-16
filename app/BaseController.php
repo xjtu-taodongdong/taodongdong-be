@@ -3,6 +3,7 @@ declare (strict_types = 1);
 
 namespace app;
 
+use app\model\Token;
 use app\model\User;
 use think\App;
 use think\exception\ValidateException;
@@ -41,6 +42,7 @@ abstract class BaseController
     protected $data;
     protected $currentUserCacheLoaded = false;
     protected $currentUserCache;
+    protected $debugMap = [];
 
     /**
      * 构造方法
@@ -80,14 +82,22 @@ abstract class BaseController
      */
     protected function getCurrentUser()
     {
-        if ($this->currentUserCacheLoaded) {
-            $user = User::where('token', $this->token)->find();
-            if ($user) {
-                $this->currentUserCache = $user;
-            } else {
-                $this->currentUserCache = null;
-            }
+        // $this->debug('cacheLoaded', $this->currentUserCacheLoaded);
+        // $this->debug('cache', $this->currentUserCache);
+        if (!$this->currentUserCacheLoaded) {
             $this->currentUserCacheLoaded = true;
+            $this->currentUserCache = null;
+
+            $tokenModel = Token::where('token', $this->token)->find();
+            // $this->debug('token', $tokenModel);
+            if ($tokenModel) {
+                $username = $tokenModel->username;
+                $user = User::where('username', $username)->find();
+                // $this->debug('user', $user);
+                if ($user) {
+                    $this->currentUserCache = $user;
+                }
+            }
         }
         return $this->currentUserCache;
     }
@@ -142,12 +152,25 @@ abstract class BaseController
         return $v->failException(true)->check($data);
     }
 
+    protected function debug($key, $value)
+    {
+        $this->debugMap[$key] = $value;
+    }
+
     public function data($data)
     {
-        return json([
-            'code' => 0,
-            'data' => $data,
-        ]);
+        if (env('app.debug') && count($this->debugMap) > 0) {
+            return json([
+                'code' => 0,
+                'data' => $data,
+                'debug' => $this->debugMap,
+            ]);
+        } else {
+            return json([
+                'code' => 0,
+                'data' => $data,
+            ]);
+        }
     }
 
     public function error($code = -1, $message = null, $data = null)
