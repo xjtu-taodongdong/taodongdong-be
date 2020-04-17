@@ -7,6 +7,7 @@ use app\model\Product as ModelProduct;
 use app\model\Store as ModelStore;
 use app\model\User as ModelUser;
 use app\model\Token as ModelToken;
+use think\Paginator;
 
 class Product extends BaseController
 {
@@ -33,5 +34,32 @@ class Product extends BaseController
         $product->save();
 
         return $this->data($product);
+    }
+
+    /**
+     * 获取商品详情
+     */
+    public function getProductInfo()
+    {
+        $productId = $this->input('id');
+
+        $product = ModelProduct::where('id', $productId)->find();
+        return $this->data($product);
+    }
+
+    /**
+     * 搜索商品
+     */
+    public function searchProducts()
+    {
+        $keywords = $this->input('keywords');
+        $page = $this->input('page');
+        $count = $this->input('count') ?: 30;
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+        $products = ModelProduct::where('product_name', 'like', '%'.$keywords.'%')->paginate($count);
+        return $this->data($products);
     }
 }
