@@ -27,6 +27,7 @@ class Errors
     const NOT_OWNER_MERCHANT = 13003;
     const NOT_OWNER_PURCHASER = 13004;
     const INVALID_STATUS = 13005;
+    const NO_ENOUGH_MONEY = 13006;
 
     const CODE_ERROR_MAP = [
         Errors::NOT_LOGIN => '您未登录',

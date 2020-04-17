@@ -80,6 +80,8 @@ class Order extends BaseController
                 $user->save();
                 $order->save();
             });
+        } else {
+            $this->error(Errors::NO_ENOUGH_MONEY);
         }
 
         return $this->data('支付成功');
