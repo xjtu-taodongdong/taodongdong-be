@@ -22,7 +22,11 @@ class Errors
     const NO_STORE = 12002;
 
     const NO_SUCH_PRODUCT = 13000;
-    const NOT_OWNER_MERCHANT = 13001;
+    const NO_SUCH_STORE = 13001;
+    const NO_SUCH_ORDER = 13002;
+    const NOT_OWNER_MERCHANT = 13003;
+    const NOT_OWNER_PURCHASER = 13004;
+    const INVALID_STATUS = 13005;
 
     const CODE_ERROR_MAP = [
         Errors::NOT_LOGIN => '您未登录',
@@ -38,7 +42,11 @@ class Errors
         Errors::NOT_MERCHANT => '您不是商家，没有商铺',
         Errors::NO_STORE => '您还没有商铺',
         Errors::NO_SUCH_PRODUCT => '没有找到该商品',
+        Errors::NO_SUCH_STORE => '没有找到这家店铺',
+        Errors::NO_SUCH_ORDER => '没有找到这条订单',
         Errors::NOT_OWNER_MERCHANT => '您不是这件商品的店家',
+        Errors::NOT_OWNER_PURCHASER => '您不是这件商品的买家',
+        Errors::INVALID_STATUS => '当前订单状态不能执行该操作',
     ];
 
     /**
