@@ -4,7 +4,7 @@ use think\migration\Migrator;
 use think\migration\db\Column;
 use Phinx\Db\Adapter\MysqlAdapter;
 
-class User extends Migrator
+class Order extends Migrator
 {
     /**
      * Change Method.
@@ -29,20 +29,22 @@ class User extends Migrator
      */
     public function up()
     {
-        $this->table('users')
-            ->addColumn('username', 'string', ['limit' => 255, 'comment' => '用户名'])
-            ->addColumn('password', 'string', ['limit' => 255, 'comment' => '密码'])
-            ->addColumn('authority', 'integer', ['limit' => MysqlAdapter::INT_TINY, 'comment' => '权限'])
-            ->addColumn('balance', 'integer', ['limit' => MysqlAdapter::INT_BIG, 'comment' => '余额(以分为单位)'])
+        $this->table('orders')
+            ->addColumn('product_id', 'integer', ['limit' => MysqlAdapter::INT_BIG, 'comment' => '商品ID'])
+            ->addColumn('store_id', 'integer', ['limit' => MysqlAdapter::INT_BIG, 'comment' => '商铺ID'])
+            ->addColumn('product_name', 'string', ['limit' => 255, 'comment' => '商品名称'])
+            ->addColumn('product_price', 'integer', ['limit' => MysqlAdapter::INT_BIG, 'comment' => '商品成交价格(以分为单位的整数)'])
+            ->addColumn('product_amount', 'integer', ['limit' => MysqlAdapter::INT_BIG, 'comment' => '商品成交数量'])
+            ->addColumn('product_description', 'text', ['comment' => '商品描述'])
+            ->addColumn('product_image', 'string', ['limit' => 255, 'comment' => '商品图片', 'null' => true])
             ->addColumn('create_at', 'datetime')
             ->addColumn('update_at', 'datetime')
-            ->addIndex(['username'], ['unique' => true])
-            ->addIndex(['authority'])
+            ->addIndex(['product_id'])
             ->save();
     }
 
     public function down()
     {
-        $this->table('users')->drop();
+        $this->table('orders')->drop();
     }
 }

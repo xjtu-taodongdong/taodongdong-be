@@ -7,6 +7,7 @@ use think\Model;
  * @property string $username
  * @property string $password
  * @property int $authority
+ * @property int $balance
  */
 class User extends Model
 {

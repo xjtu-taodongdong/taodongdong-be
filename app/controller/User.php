@@ -93,6 +93,7 @@ class User extends BaseController
         $user->username = $username;
         $user->password = $hash;
         $user->authority = $authority;
+        $user->balance = 0;
         $user->save();
 
         return $this->data('注册成功');
