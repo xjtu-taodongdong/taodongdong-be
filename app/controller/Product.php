@@ -62,4 +62,42 @@ class Product extends BaseController
         $products = ModelProduct::where('product_name', 'like', '%'.$keywords.'%')->paginate($count);
         return $this->data($products);
     }
+
+    /**
+     * 更新商品详情
+     */
+    public function modifyProduct()
+    {
+        $store = $this->getCurrentStoreOrThrow();
+
+        $productId = $this->input('id');
+        $productName = $this->input('product_name');
+        $productPrice = $this->input('product_price');
+        $productAmount = $this->input('product_amount');
+        $productDescription = $this->input('product_description');
+
+        $product = ModelProduct::where('id', $productId)->find();
+        if (!$product) {
+            $this->error(Errors::NO_SUCH_PRODUCT);
+        }
+        if ($product->store_id !== $store->id) {
+            $this->error(Errors::NOT_OWNER_MERCHANT);
+        }
+
+        if ($productName) {
+            $product->product_name = $productName;
+        }
+        if ($productPrice) {
+            $product->product_price = $productPrice;
+        }
+        if ($productAmount) {
+            $product->product_amount = $productAmount;
+        }
+        if ($productDescription) {
+            $product->product_description = $productDescription;
+        }
+        $product->save();
+
+        return $this->data($product);
+    }
 }
