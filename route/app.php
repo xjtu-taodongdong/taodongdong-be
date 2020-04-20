@@ -13,4 +13,4 @@ use think\facade\Route;
 
 Route::post('/api/v1/rpc', \app\ServiceDispatch::class);
 Route::get('/api/v1/rpc-test', \app\ServiceDispatch::class);
-Route::get('/clear', 'Index.clear');
+Route::get('/clear', 'index/Index/clear');
