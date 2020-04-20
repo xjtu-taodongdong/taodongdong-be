@@ -8,7 +8,13 @@ class Index extends BaseController
 {
     public function index()
     {
-        return '<script src="https://unpkg.com/axios@0.18.0/dist/axios.min.js"></script>欢迎来到淘东东';
+        return '<script src="https://unpkg.com/axios@0.18.0/dist/axios.min.js"></script>欢迎来到淘东东<a href="/clear">一键删库</a>';
+    }
+
+    public function clear()
+    {
+        $this->clearDataBase();
+        return '删库成功，3秒后返回。<script>setTimeout(function() { location.href="/" }, 3000)</script>';
     }
 
     public function hello()
@@ -23,12 +29,10 @@ class Index extends BaseController
 
     public function clearDataBase()
     {
-        if (env('app.debug')) {
-            Db::query('TRUNCATE `tokens`');
-            Db::query('TRUNCATE `users`');
-            Db::query('TRUNCATE `products`');
-            Db::query('TRUNCATE `stores`');
-            return $this->data('Clear OK');
-        }
+        Db::query('TRUNCATE `tokens`');
+        Db::query('TRUNCATE `users`');
+        Db::query('TRUNCATE `products`');
+        Db::query('TRUNCATE `stores`');
+        return $this->data('Clear OK');
     }
 }
