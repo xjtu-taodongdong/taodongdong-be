@@ -4,8 +4,8 @@ namespace app\controller;
 use app\BaseController;
 use app\Errors;
 use app\model\Store as ModelStore;
-use app\model\User as ModelUser;
-use app\model\Token as ModelToken;
+use app\model\Product as ModelProduct;
+use think\Paginator;
 
 class Store extends BaseController
 {
@@ -44,5 +44,22 @@ class Store extends BaseController
         $store = $this->getCurrentStoreOrThrow();
 
         return $this->data($store);
+    }
+
+    /**
+     * 获取特定商铺下的商品（分页）
+     */
+    public function getAllProducts()
+    {
+        $storeId = $this->input('store_id');
+        $page = $this->input('page');
+        $count = $this->input('count') ?: 30;
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+
+        $products = ModelProduct::where('store_id', $storeId)->paginate($count);
+        return $this->data($products);
     }
 }
