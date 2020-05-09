@@ -6,6 +6,7 @@ namespace app;
 class Errors
 {
     const NOT_LOGIN = 1000;
+    const JSON_FORMAT_ERROR = 1001;
 
     const NO_SUCH_USER = 10000;
     const PASSWORD_ERROR = 10001;
@@ -29,8 +30,12 @@ class Errors
     const INVALID_STATUS = 13005;
     const NO_ENOUGH_MONEY = 13006;
 
+    const NO_INPUT_FILE = 14000;
+    const NOT_IMAGE = 14001;
+
     const CODE_ERROR_MAP = [
         Errors::NOT_LOGIN => '您未登录',
+        Errors::JSON_FORMAT_ERROR => 'JSON格式化错误',
         Errors::NO_SUCH_USER => '用户不存在，无法登录',
         Errors::PASSWORD_ERROR => '密码错误',
         Errors::CANT_CREATE_HASH => '登录异常请重试',
@@ -48,6 +53,8 @@ class Errors
         Errors::NOT_OWNER_MERCHANT => '您不是这件商品的店家',
         Errors::NOT_OWNER_PURCHASER => '您不是这件商品的买家',
         Errors::INVALID_STATUS => '当前订单状态不能执行该操作',
+        Errors::NO_INPUT_FILE => '未上传任何文件',
+        Errors::NOT_IMAGE => '上传的文件不是图片',
     ];
 
     /**

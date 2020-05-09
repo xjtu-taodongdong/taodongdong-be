@@ -7,6 +7,7 @@ use app\model\Product as ModelProduct;
 use app\model\Store as ModelStore;
 use app\model\User as ModelUser;
 use app\model\Token as ModelToken;
+use think\facade\Filesystem;
 use think\Paginator;
 
 class Product extends BaseController
@@ -99,5 +100,48 @@ class Product extends BaseController
         $product->save();
 
         return $this->data($product);
+    }
+
+    /**
+     * 上传商品图片
+     */
+    public function uploadImage()
+    {
+        // 检查登录
+        $store = $this->getCurrentStoreOrThrow();
+
+        $productId = $this->input('id');
+
+        // 检查商品存在并且是自己的商品
+        $product = ModelProduct::where('id', $productId)->find();
+        if (!$product) {
+            $this->error(Errors::NO_SUCH_PRODUCT);
+        }
+        if ($product->store_id !== $store->id) {
+            $this->error(Errors::NOT_OWNER_MERCHANT);
+        }
+
+        // 检查图片
+        $file = $this->file();
+        if (!$file) {
+            // 没有上传文件
+            return $this->error(Errors::NO_INPUT_FILE);
+        }
+        $ext = $file->extension();
+        if (!in_array($ext, ['jpg', 'jpeg', 'png'])) {
+            // 不是图片
+            return $this->error(Errors::NOT_IMAGE);
+        }
+
+        $name = Filesystem::putFile('image', $file);
+        $url = 'https://keu75.ddltech.top/uploads/' . $name;
+
+        // 保存到数据库
+        $product->product_image = $url;
+        $product->save();
+
+        return $this->data([
+            'url' => $url,
+        ]);
     }
 }

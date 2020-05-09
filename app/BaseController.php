@@ -41,6 +41,7 @@ abstract class BaseController
 
     protected $token;
     protected $data;
+    protected $isFormData = false;
     protected $currentUserCacheLoaded = false;
     protected $currentUserCache;
     protected $currentStoreCacheLoaded = false;
@@ -64,8 +65,17 @@ abstract class BaseController
     // 初始化
     protected function initialize()
     {
+        $this->isFormData = $this->request->contentType() === 'multipart/form-data';
         $this->token = $this->request->param('token');
-        $this->data = $this->request->param('data');
+        $data = $this->request->param('data');
+        if ($this->isFormData) {
+            $this->data = json_decode($data, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                $this->error(Errors::JSON_FORMAT_ERROR);
+            }
+        } else {
+            $this->data = $data;
+        }
     }
 
     /**
@@ -78,6 +88,15 @@ abstract class BaseController
         } else {
             return null;
         }
+    }
+
+    /**
+     * 获取文件
+     * @return \think\file\UploadedFile
+     */
+    protected function file(string $key = 'file')
+    {
+        return $this->request->file($key);
     }
 
     /**
