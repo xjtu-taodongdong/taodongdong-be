@@ -21,10 +21,8 @@ class Store extends BaseController
             $this->error(Errors::ALREADY_HAVE_STORE);
         }
 
-        $storeName = $this->input('store_name');
         $store = new ModelStore();
         $store->merchant_user_id = $user->id;
-        $store->store_name = $storeName;
         $store->save();
 
         return $this->data('创建商铺成功');

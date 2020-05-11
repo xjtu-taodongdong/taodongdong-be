@@ -3,8 +3,10 @@ namespace app\controller;
 
 use app\BaseController;
 use app\Errors;
+use app\model\Store as ModelStore;
 use app\model\User as ModelUser;
 use app\model\Token as ModelToken;
+use think\facade\Db;
 
 class User extends BaseController
 {
@@ -92,9 +94,20 @@ class User extends BaseController
         $user = new ModelUser();
         $user->username = $username;
         $user->password = $hash;
-        $user->authority = $authority;
+        $user->authority = 0;
         $user->balance = 0;
         $user->save();
+
+        if ($authority === 1) {
+            Db::transaction(function() use ($user) {
+                $store = new ModelStore();
+                $store->merchant_user_id = $user->id;
+                $user->authority = 1;
+
+                $store->save();
+                $user->save();
+            });
+        }
 
         return $this->data('注册成功');
     }
@@ -114,8 +127,14 @@ class User extends BaseController
             $this->error(Errors::INVALID_AUTHORITY_TO_MERCHANT);
         }
 
-        $user->authority = 1;
-        $user->save();
+        Db::transaction(function() use ($user) {
+            $store = new ModelStore();
+            $store->merchant_user_id = $user->id;
+            $user->authority = 1;
+
+            $store->save();
+            $user->save();
+        });
 
         return $this->data('注册为商家成功');
     }

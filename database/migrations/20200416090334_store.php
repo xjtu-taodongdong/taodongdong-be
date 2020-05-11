@@ -31,7 +31,6 @@ class Store extends Migrator
     {
         $this->table('stores')
             ->addColumn('merchant_user_id', 'integer', ['limit' => MysqlAdapter::INT_BIG, 'comment' => '商品所属商家的用户ID'])
-            ->addColumn('store_name', 'string', ['limit' => 255, 'comment' => '商铺名称'])
             ->addColumn('create_at', 'datetime')
             ->addColumn('update_at', 'datetime')
             ->addIndex(['merchant_user_id'])
