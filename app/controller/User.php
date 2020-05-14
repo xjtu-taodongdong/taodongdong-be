@@ -153,4 +153,19 @@ class User extends BaseController
             return $this->data(null);
         }
     }
+
+    /**
+     * 充值
+     */
+    public function recharge()
+    {
+        $amount = $this->input('amount');
+
+        $user = $this->getCurrentUserOrThrow();
+
+        $user->balance += $amount;
+        $user->save();
+
+        return $this->data($user);
+    }
 }

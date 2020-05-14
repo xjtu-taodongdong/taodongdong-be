@@ -158,4 +158,38 @@ class Order extends BaseController
 
         return $this->data('确认成功');
     }
+
+    /**
+     * 获取商家的订单列表
+     */
+    public function getMerchantOrders()
+    {
+        $user = $this->getCurrentUserOrThrow();
+
+        $page = $this->input('page');
+        $count = $this->input('count') ?: 30;
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+        $orders = ModelOrder::where('merchant_user_id', $user->id)->paginate($count);
+        return $this->data($orders);
+    }
+
+    /**
+     * 获取客户的订单列表
+     */
+    public function getPurchaserOrders()
+    {
+        $user = $this->getCurrentUserOrThrow();
+
+        $page = $this->input('page');
+        $count = $this->input('count') ?: 30;
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+        $orders = ModelOrder::where('purchaser_user_id', $user->id)->paginate($count);
+        return $this->data($orders);
+    }
 }
