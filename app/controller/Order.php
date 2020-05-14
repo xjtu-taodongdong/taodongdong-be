@@ -165,6 +165,7 @@ class Order extends BaseController
     public function getMerchantOrders()
     {
         $user = $this->getCurrentUserOrThrow();
+        $this->getCurrentStoreOrThrow();
 
         $page = $this->input('page');
         $count = $this->input('count') ?: 30;
