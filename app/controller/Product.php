@@ -144,4 +144,27 @@ class Product extends BaseController
             'url' => $url,
         ]);
     }
+
+    /**
+     * 下架商品
+     */
+    public function removeProduct()
+    {
+        // 检查登录
+        $store = $this->getCurrentStoreOrThrow();
+
+        $productId = $this->input('id');
+
+        // 检查商品存在并且是自己的商品
+        $product = ModelProduct::where('id', $productId)->find();
+        if (!$product) {
+            $this->error(Errors::NO_SUCH_PRODUCT);
+        }
+        if ($product->store_id !== $store->id) {
+            $this->error(Errors::NOT_OWNER_MERCHANT);
+        }
+
+        $product->delete();
+        return $this->data('下架成功');
+    }
 }
