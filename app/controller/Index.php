@@ -37,7 +37,7 @@ class Index extends BaseController
         return $this->data('Clear OK');
     }
 
-    public function error()
+    public function exception()
     {
         throw new RuntimeException('Exception');
     }
