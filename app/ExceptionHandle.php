@@ -56,6 +56,8 @@ class ExceptionHandle extends Handle
             return json($e->toArray());
         }
 
+        $this->isJson = true;
+
         // 其他错误交给系统处理
         return parent::render($request, $e);
     }

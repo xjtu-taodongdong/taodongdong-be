@@ -2,6 +2,7 @@
 namespace app\controller;
 
 use app\BaseController;
+use RuntimeException;
 use think\facade\Db;
 
 class Index extends BaseController
@@ -34,5 +35,10 @@ class Index extends BaseController
         Db::query('TRUNCATE `products`');
         Db::query('TRUNCATE `stores`');
         return $this->data('Clear OK');
+    }
+
+    public function error()
+    {
+        throw new RuntimeException('Exception');
     }
 }
