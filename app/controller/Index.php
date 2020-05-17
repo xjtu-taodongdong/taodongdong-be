@@ -34,6 +34,7 @@ class Index extends BaseController
         Db::query('TRUNCATE `users`');
         Db::query('TRUNCATE `products`');
         Db::query('TRUNCATE `stores`');
+        Db::query('TRUNCATE `orders`');
         return $this->data('Clear OK');
     }
 
