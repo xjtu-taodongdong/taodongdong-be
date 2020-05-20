@@ -60,7 +60,9 @@ class Product extends BaseController
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         });
-        $products = ModelProduct::where('product_name', 'like', '%'.$keywords.'%')->paginate($count);
+        $products = ModelProduct::where('product_name', 'like', '%'.$keywords.'%')
+            ->where('product_amount', '>', 0)
+            ->paginate($count);
         return $this->data($products);
     }
 
