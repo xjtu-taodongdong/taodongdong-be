@@ -13,6 +13,7 @@ use think\Model;
  * @property int $product_amount
  * @property string $product_description
  * @property string $product_image
+ * @property int $order_amount
  * @property int $order_status
  */
 class Order extends Model

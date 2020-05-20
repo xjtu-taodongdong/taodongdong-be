@@ -39,6 +39,7 @@ class Order extends Migrator
             ->addColumn('product_amount', 'integer', ['limit' => MysqlAdapter::INT_BIG, 'comment' => '商品成交数量'])
             ->addColumn('product_description', 'text', ['comment' => '商品描述'])
             ->addColumn('product_image', 'string', ['limit' => 255, 'comment' => '商品图片', 'null' => true])
+            ->addColumn('order_amount', 'integer', ['limit' => MysqlAdapter::INT_BIG, 'comment' => '订单数量'])
             ->addColumn('order_status', 'integer', ['limit' => MysqlAdapter::INT_TINY, 'comment' => '订单状态'])
             ->addColumn('create_at', 'datetime')
             ->addColumn('update_at', 'datetime')

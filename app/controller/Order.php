@@ -7,7 +7,6 @@ use app\model\Order as ModelOrder;
 use app\model\Product as ModelProduct;
 use app\model\Store as ModelStore;
 use app\model\User as ModelUser;
-use app\model\Token as ModelToken;
 use think\facade\Db;
 use think\Paginator;
 
@@ -21,6 +20,7 @@ class Order extends BaseController
         $user = $this->getCurrentUserOrThrow();
 
         $productId = $this->input('product_id');
+        $orderAmount = $this->input('order_amount');
 
         $product = ModelProduct::where('id', $productId)->find();
         if (!$product) {
@@ -46,8 +46,15 @@ class Order extends BaseController
         $order->product_amount = $product->product_amount;
         $order->product_description = $product->product_description;
         $order->product_image = $product->product_image;
+        $order->order_amount = $orderAmount;
         $order->order_status = ModelOrder::STATUS_UNPAID;
-        $order->save();
+
+        $product->product_amount -= $orderAmount;
+
+        Db::transaction(function() use ($order, $product) {
+            $order->save();
+            $product->save();
+        });
 
         return $this->data($order);
     }
