@@ -134,7 +134,7 @@ class Product extends BaseController
         }
 
         $name = Filesystem::putFile('image', $file);
-        $url = 'https://keu75.ddltech.top/uploads/' . $name;
+        $url = 'https://taodongdong.ddltech.top/uploads/' . $name;
 
         // 保存到数据库
         $product->product_image = $url;
