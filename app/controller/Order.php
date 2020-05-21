@@ -79,7 +79,7 @@ class Order extends BaseController
         }
 
         // 这里不检查order是否是自己的 即允许帮别人付款
-        $priceTotal = $order->product_price * $order->product_amount;
+        $priceTotal = $order->product_price * $order->order_amount;
         if ($user->balance >= $priceTotal) {
             Db::transaction(function() use ($user, $priceTotal, $order) {
                 $user->balance -= $priceTotal;
@@ -155,7 +155,7 @@ class Order extends BaseController
             $this->error(Errors::INVALID_STATUS);
         }
 
-        $priceTotal = $order->product_price * $order->product_amount;
+        $priceTotal = $order->product_price * $order->order_amount;
         Db::transaction(function() use ($merchant, $priceTotal, $order) {
             $merchant->balance += $priceTotal;
             $order->order_status = ModelOrder::STATUS_CONFIRMED;
