@@ -45,6 +45,16 @@ class Product extends BaseController
         $productId = $this->input('id');
 
         $product = ModelProduct::where('id', $productId)->find();
+        if ($product) {
+            $storeId = $product->store_id;
+            $store = ModelStore::where('id', $storeId)->find();
+            if ($store) {
+                $merchantUserId = $store->merchant_user_id;
+            } else {
+                $merchantUserId = 0;
+            }
+            $product->merchant_user_id = $merchantUserId;
+        }
         return $this->data($product);
     }
 
